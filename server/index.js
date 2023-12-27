@@ -3,6 +3,12 @@ const app = express();
 const config = require("config");
 const PORT = config.get("serverPort");
 const mongoose = require("mongoose");
+const cors = require("./middleware/cors.middleware");
+const authRouter = require("./routes/auth.routes");
+
+app.use(cors);
+app.use(express.json());
+app.use("/api/auth", authRouter);
 
 const start = async () => {
     try {
@@ -12,7 +18,7 @@ const start = async () => {
             console.log("Server has been started on PORT=" + PORT);
         })
     } catch (e) {
-
+        console.log("Server error - " + e);
     }
 }
 
