@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
-export const authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
     try {
-        const token = req.header.authorizatio.split(" ")[1];
+        const token = req.headers.authorization.split(" ")[1];
 
         if (!token) {
             return res.status(401).json({message: "User is't authorized!"});
@@ -14,6 +14,8 @@ export const authMiddleware = (req, res, next) => {
         req.body.user = decodedData;
         next();
     } catch (e) {
-        return res.status(403).json({message: "User is't authorized!"})
+        return res.status(403).json({message: "Authorized error! "+ e})
     }
 }
+
+module.exports = authMiddleware;

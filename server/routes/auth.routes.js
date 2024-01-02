@@ -25,7 +25,14 @@ router.post("/registration", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 7);
 
-        const user = new User({firstName, lastName, email, dateOfBirthday, password: hashedPassword});
+        const user = new User({
+            firstName,
+            lastName,
+            email,
+            dateOfBirthday: dateOfBirthday || null,
+            password: hashedPassword,
+            avatar: null,
+        });
 
         await user.save();
 
@@ -55,7 +62,13 @@ router.post("/login", async (req, res) => {
 
         res.status(200).json({
             token,
-            user,
+            user: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                dateOfBirthday: user.dateOfBirthday,
+                avatar: user.avatar,
+            }
         });
     } catch (e) {
         return res.status(500).json({message: "Server error: " + e});
@@ -66,7 +79,7 @@ router.post("/auth", auth, async (req, res) => {
     try {
         const id = req.body.user.id;
 
-        const user = await User.findOne({id});
+        const user = await User.findOne({_id: id});
 
         if (!user) return res.status(404).json({message: "User not found!"});
         
@@ -74,7 +87,13 @@ router.post("/auth", auth, async (req, res) => {
 
         return res.json({
             token,
-            user,
+            user: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                dateOfBirthday: user.dateOfBirthday,
+                avatar: user.avatar,
+            }
         });
     } catch (e) {
         return res.status(500).json({message: "Server error: " + e});
