@@ -22,7 +22,7 @@ const userApi = createApi({
             query: (data) => ({
                 url: "auth",
                 method: "POST",
-                headers: { Autherization: `Berear ${data.token}`}
+                headers: { Authorization: `Berear ${data.token}`}
             })
         }),
     })
