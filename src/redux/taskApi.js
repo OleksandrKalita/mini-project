@@ -1,0 +1,20 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+
+const taskApi = createApi({
+    reducerPath: "taskApi",
+    baseQuery: fetchBaseQuery({baseUrl: "http://localhost:3201/api/task/"}),
+    endpoints: (builder) => ({
+        createTask: builder.mutation({
+            query: (data) => ({
+                url: "create",
+                method: "POST",
+                headers: {Authorization: `Berear ${data.token}`},
+                body: data.task,
+            })
+        })
+    })
+});
+
+export default taskApi;
+export const { useCreateTaskMutation } = taskApi;

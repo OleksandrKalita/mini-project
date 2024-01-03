@@ -44,7 +44,7 @@ export const LoginPage = () => {
                         onFocus={event => setPasswordVisible(true)}
                         onBlur={event => setPasswordVisible(false)}
                         />
-                        <button className="button auth__button">submit</button>
+                        <button className="button form__button">submit</button>
                     </form>
                 </div>
             </div>
