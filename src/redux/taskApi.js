@@ -12,9 +12,16 @@ const taskApi = createApi({
                 headers: {Authorization: `Berear ${data.token}`},
                 body: data.task,
             })
+        }),
+        getTasks: builder.mutation({
+            query: () => ({
+                url: "get",
+                method: "POST",
+                headers: {Authorization: "Berear " + localStorage.getItem("token")}
+            })
         })
     })
 });
 
 export default taskApi;
-export const { useCreateTaskMutation } = taskApi;
+export const { useCreateTaskMutation, useGetTasksMutation } = taskApi;

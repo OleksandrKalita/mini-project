@@ -20,7 +20,9 @@ export const CreateComponent = () => {
                 expiredDate: date
             }
         });
-        // console.log(text + " " + date);
+
+        setText("");
+        setDate("");
     }
 
     if (isSuccess) {

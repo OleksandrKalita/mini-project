@@ -3,3 +3,13 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+.con {
+    display: flex;
+    column-gap: 20px;
+}
+.content-box {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}

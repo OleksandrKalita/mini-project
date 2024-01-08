@@ -19,8 +19,6 @@ function App() {
   const [authenticateUser, {data, isError, isSuccess, isLoading, error}] = useAuthenticateUserMutation();
 
   useLayoutEffect(() => {
-    const x = localStorage.getItem("token") || "";
-    console.log("Berear " + x);
     authenticateUser({token: localStorage.getItem("token") || ""});
   }, []);
 
