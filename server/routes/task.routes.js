@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 router.post("/create", auth, async (req, res) => {
     try {
-        const {text, type, createDate, expiredDate} = req.body;
+        const {text, type, status, createDate, expiredDate} = req.body;
         const userId = req.body.user.id;
 
         const user = await User.findOne({_id: userId});
@@ -16,13 +16,14 @@ router.post("/create", auth, async (req, res) => {
         const task = new Task({
             userId,
             type,
+            status,
             text,
             createDate,
             expiredDate,
         })
         await task.save();
 
-        return res.json({message: "Task has been created!"});
+        return res.json({message: `${type} has been created`});
     } catch (e) {
         return res.status(401).json({message: "Server error: " + e});
     }

@@ -34,7 +34,7 @@ function App() {
   return (
     isLoading ? 
     <>
-      <div className="wrapper">Loading...</div>
+      <div className="wrapper"></div>
     </> : 
     <>
       <Routes>

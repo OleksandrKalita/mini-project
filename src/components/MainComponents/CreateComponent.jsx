@@ -3,7 +3,7 @@ import { useCreateTaskMutation } from "../../redux/taskApi";
 
 export const CreateComponent = () => {
     const [text, setText] = useState("");
-    const [date, setDate] = useState("");
+    const [datetime, setDatetime] = useState("");
     const [type, setType] = useState("task");
 
     const [createTask, {data, isSuccess}] = useCreateTaskMutation();
@@ -12,19 +12,20 @@ export const CreateComponent = () => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        
+
         createTask({
             token: localStorage.getItem("token"),
             task: {
                 text,
                 type,
+                status: "pending",
                 createDate: currentData,
-                expiredDate: date,
+                expiredDate: new Date(datetime).toUTCString(),
             }
         });
 
         setText("");
-        setDate("");
+        setDatetime("");
     }
 
     if (isSuccess) {
@@ -43,11 +44,11 @@ export const CreateComponent = () => {
                 type={type === "event" ? "datetime-local" : "date"} 
                 className="form__input"
                 min={currentData}
-                value={date}
-                onChange={event => setDate(event.target.value)} />
+                value={datetime}
+                onChange={event => setDatetime(event.target.value)} />
                 <div className="radio-block">
                     <label htmlFor="" className="radio-label">
-                        <input 
+                        <input
                         type="radio" 
                         name="typeOf"
                         onChange={event => setType("task")} />
