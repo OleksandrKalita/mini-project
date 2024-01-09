@@ -8,7 +8,7 @@ export const MainComponent = () => {
 
     let day = 0;
 
-    const currentDate = new Date("2024-01-08");
+    const currentDate = new Date();
     currentDate.setHours(0,0,0,0);
 
     useEffect(() => {
@@ -35,55 +35,21 @@ export const MainComponent = () => {
 
         list.forEach(elem => {
             if (currentDate <= new Date(elem.expiredDate) ) {
-                if (new Date(currentDate).setDate(currentDate.getDate() + 1)) {
-                    const [hours, minutes, secunds] = new Date(elem.expiredDate).toLocaleTimeString().split(":");
-                    const newElement = {
-                        ...elem,
-                        expiredTime: `${hours}:${minutes}`
-                    }
-                    if (element.type === "task") {
-                        resultList[0].unshift(newElement);
-                    } else {
-                        resultList[0].push(newElement);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 2)) {
-                    if (element.type === "task") {
-                        resultList[1].unshift(elem);
-                    } else {
-                        resultList[1].push(elem);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 3)) {
-                    if (element.type === "task") {
-                        resultList[2].unshift(elem);
-                    } else {
-                        resultList[2].push(elem);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 4)) {
-                    if (element.type === "task") {
-                        resultList[3].unshift(elem);
-                    } else {
-                        resultList[3].push(elem);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 5)) {
-                    if (element.type === "task") {
-                        resultList[4].unshift(elem);
-                    } else {
-                        resultList[4].push(elem);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 6)) {
-                    if (element.type === "task") {
-                        resultList[5].unshift(elem);
-                    } else {
-                        resultList[5].push(elem);
-                    }
-                } else if (new Date(currentDate).setDate(currentDate.getDate() + 7)) {
-                    if (element.type === "task") {
-                        resultList[6].unshift(elem);
-                    } else {
-                        resultList[6].push(elem);
+                for (let counter = 1; counter <= count; counter++) {
+                    if (new Date(currentDate).setDate(currentDate.getDate() + counter) > new Date(elem.expiredDate)) {
+                        const [hours, minutes, seconds] = new Date(elem.expiredDate).toLocaleTimeString().split(":");
+                        const newElement = {
+                            ...elem,
+                            expiredTime: `${hours}:${minutes}`
+                        }
+                        if (element.type === "task") {
+                            resultList[counter-1].unshift(newElement);
+                        } else {
+                            resultList[counter-1].push(newElement);
+                        }
+                        break;
                     }
                 }
-                
             }
         });
         return resultList;
