@@ -7,8 +7,8 @@ import { useDispatch } from "react-redux";
 export const LoginPage = () => {
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("tkaczenko.dima@gmail.com");
+    const [password, setPassword] = useState("1234jukGdI2x");
 
     const [passwordVisible, setPasswordVisible] = useState(false);
 

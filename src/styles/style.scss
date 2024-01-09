@@ -13,3 +13,15 @@
     flex-direction: column;
     row-gap: 10px;
 }
+.control-panel {
+    display:  flex;
+    column-gap: 15px;
+}
+.radio-block {
+    display: flex;
+    flex-direction: column;
+}
+.radio-label {
+    display: flex;
+    column-gap: 7px;
+}

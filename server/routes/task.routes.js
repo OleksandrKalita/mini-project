@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 router.post("/create", auth, async (req, res) => {
     try {
-        const {text, createDate, expiredDate} = req.body;
+        const {text, type, createDate, expiredDate} = req.body;
         const userId = req.body.user.id;
 
         const user = await User.findOne({_id: userId});
@@ -15,6 +15,7 @@ router.post("/create", auth, async (req, res) => {
 
         const task = new Task({
             userId,
+            type,
             text,
             createDate,
             expiredDate,
