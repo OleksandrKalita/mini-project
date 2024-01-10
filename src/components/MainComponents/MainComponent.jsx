@@ -8,7 +8,7 @@ export const MainComponent = () => {
 
     let day = 0;
 
-    const currentDate = new Date();
+    const currentDate = new Date("");
     currentDate.setHours(0,0,0,0);
 
     useEffect(() => {
@@ -56,10 +56,10 @@ export const MainComponent = () => {
     }
     const sortDates = (countOfDays) => {
         const arr = [];
-        let day = new Date().getDate();
-        for (let counter = 1; counter <= countOfDays; counter++) {
-            arr.push(day);
-            day++;
+
+        for (let i = 0; i < countOfDays; i++) {
+            const date = new Date(currentDate).setDate(currentDate.getDate()+i);
+            arr[i] = new Date(date).getDate();
         }
         return arr;
     }
