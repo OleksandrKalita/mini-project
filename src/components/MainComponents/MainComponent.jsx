@@ -1,6 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useGetTasksMutation } from "../../redux/taskApi";
-import { element } from "prop-types";
 
 export const MainComponent = () => {
     const [getTasks, {data, isSuccess, isLoading}] = useGetTasksMutation();
@@ -8,7 +7,7 @@ export const MainComponent = () => {
 
     let day = 0;
 
-    const currentDate = new Date("");
+    const currentDate = new Date();
     currentDate.setHours(0,0,0,0);
 
     useEffect(() => {
@@ -42,7 +41,7 @@ export const MainComponent = () => {
                             ...elem,
                             expiredTime: `${hours}:${minutes}`
                         }
-                        if (element.type === "task") {
+                        if (elem.type === "task") {
                             resultList[counter-1].unshift(newElement);
                         } else {
                             resultList[counter-1].push(newElement);
@@ -52,6 +51,11 @@ export const MainComponent = () => {
                 }
             }
         });
+
+        for (let i = 0; i < resultList.length; i++) {
+            resultList[i] = resultList[i].sort((a,b) => new Date(a.expiredDate) - new Date(b.expiredDate));
+        }
+
         return resultList;
     }
     const sortDates = (countOfDays) => {
