@@ -19,9 +19,20 @@ const taskApi = createApi({
                 method: "POST",
                 headers: {Authorization: "Berear " + localStorage.getItem("token")}
             })
+        }),
+        changeTaskStatus: builder.mutation({
+            query: (data) => ({
+                url: "update-status",
+                method: "POST",
+                headers: {Authorization: "Berear " + localStorage.getItem("token")},
+                body: {
+                    taskId: data.taskId,
+                    newStatus: data.status,
+                }
+            })
         })
     })
 });
 
 export default taskApi;
-export const { useCreateTaskMutation, useGetTasksMutation } = taskApi;
+export const { useCreateTaskMutation, useGetTasksMutation, useChangeTaskStatusMutation } = taskApi;

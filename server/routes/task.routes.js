@@ -41,5 +41,14 @@ router.post("/get", auth, async (req, res) => {
         return res.status(401).json({message: "Server error: " + e});
     }
 })
+router.post("/update-status", auth, async (req, res) => {
+    try {
+        const {taskId, newStatus} = req.body;
+        await Task.updateOne({_id: taskId}, {$set: {status: newStatus ? "done" : "pending"}})
+        
+    } catch (e) {
+        return res.status(401).json({message: "Server error: " + e});
+    }
+})
 
 module.exports = router;

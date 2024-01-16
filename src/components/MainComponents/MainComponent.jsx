@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useGetTasksMutation } from "../../redux/taskApi";
+import { TaskComponent } from "./TaskComponent";
 
 export const MainComponent = () => {
     const [getTasks, {data, isSuccess, isLoading}] = useGetTasksMutation();
@@ -85,22 +86,11 @@ export const MainComponent = () => {
                     <div className="content-block">
                     {sortedListOfTask.map(taskList => 
                         <div className="day-box">
-                            {/* {console.log(taskList)} */}
                             <div className="day-box__container">
                                 <div className="day-headline">{arrWithDate[day++]}</div>
                                 <div className="day-list">
                                     { taskList.length <= 0 ? <>List is empty</> : 
-                                    taskList.map(taska => 
-                                        <div className="task-container">
-                                            {/* const d = taska.expiredDate */}
-                                            <div className="task-text">{taska.text}</div>
-                                            {
-                                                taska.type === "task" ? 
-                                                <input type="checkbox" name="" id="" /> :
-                                                <div className="exp-time">{taska.expiredTime}</div>
-                                            }
-                                        </div>   
-                                    )}
+                                    taskList.map(taska => <TaskComponent task={taska}/>)}
                                 </div>
                             </div>
                         </div>

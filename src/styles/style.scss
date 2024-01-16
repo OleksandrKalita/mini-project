@@ -6,7 +6,10 @@
 ul,li {
     list-style: none;
 }
-
+body,
+html {
+    overflow: hidden;
+}
 
 
 .header__container {
