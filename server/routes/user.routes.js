@@ -41,6 +41,21 @@ router.post("/upload-image", upload.single("image"), auth, async (req, res) => {
     }
 });
 
+router.post("/delete-avatar", auth, async (req, res) => {
+    try {
+        const userId = req.body.user.id;
+
+        const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatar: ""}}, {
+            new: true,
+        });
+
+        res.json({
+            user,
+        });
+    } catch (e) {
+        return res.status(401).json({message: "Server error: " + e});
+    }
+})
 router.post("/update-data", auth, async(req, res) => {
     try {
         const userId = req.body.user.id;

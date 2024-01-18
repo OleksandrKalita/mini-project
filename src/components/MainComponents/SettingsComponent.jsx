@@ -17,6 +17,19 @@ export const SettingsComponent = () => {
     if (isSuccess) {
         dispatch(login(data.user));
     }
+    const clickDeleteHandler = () => {
+        fetch("http://localhost:3201/api/user/delete-avatar", {
+            method: "POST",
+            headers: {
+                Authorization: "Berear " + localStorage.getItem("token"),
+            }
+        })
+        .then(data => data.json())
+        .then(data => {
+            console.log(data);
+            dispatch(login(data.user));
+        })
+    }
     return(
         <main className="main">
             <div className="main__container">
@@ -39,6 +52,7 @@ export const SettingsComponent = () => {
                     accept="image/*" 
                     type="file" 
                     onChange={e => uploadImageFunc(e.target.files[0])}/>
+                    <button onClick={e => clickDeleteHandler()}>delete avatar</button>
                 </div>
             </div>
         </main>
