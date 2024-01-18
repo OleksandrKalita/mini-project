@@ -2,31 +2,26 @@ import { createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 const userApi = createApi({
     reducerPath: "userApi",
-    baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3201/api/auth/"}),
+    baseQuery: fetchBaseQuery({baseUrl: "http://localhost:3201/api/user/"}),
     endpoints: (builder) => ({
-        signInUser: builder.mutation({
+        uploadImage: builder.mutation({
             query: (data) => ({
-                url: "registration",
+                url: "upload-image",
                 method: "POST",
+                headers: {Authorization: "Berear " + localStorage.getItem("token")},
                 body: data,
             })
         }),
-        logInUser: builder.mutation({
+        updateData: builder.mutation({
             query: (data) => ({
-                url: "login",
+                url: "update-data",
                 method: "POST",
+                headers: {Authorization: "Berear " + localStorage.getItem("token")},
                 body: data,
-            })
-        }),
-        authenticateUser: builder.mutation({
-            query: (data) => ({
-                url: "auth",
-                method: "POST",
-                headers: { Authorization: `Berear ${data.token}`}
             })
         }),
     })
 })
 
 export default userApi;
-export const { useSignInUserMutation, useLogInUserMutation, useAuthenticateUserMutation } = userApi;
+export const { useUploadImageMutation, useUpdateDataMutation } = userApi;

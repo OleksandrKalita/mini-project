@@ -4,10 +4,11 @@ import { LoginPage } from "./components/LoginPage";
 import { MainComponent } from "./components/MainComponents/MainComponent";
 import { MainPage } from "./components/MainPage";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useLayoutEffect } from "react";
-import { useAuthenticateUserMutation } from "./redux/userApi";
+import { useLayoutEffect } from "react";
+import { useAuthenticateUserMutation } from "./redux/authApi";
 import { login } from "./redux/userSlice";
 import { CreateComponent } from "./components/MainComponents/CreateComponent";
+import { SettingsComponent } from "./components/MainComponents/SettingsComponent.jsx";
 
 
 
@@ -41,7 +42,7 @@ function App() {
         <Route path="/task-mananger/*" element={isAuth ? <MainPage/> : <Navigate to="/login"/>}>
           <Route path="main" element={<MainComponent/>}/>
           <Route path="create" element={<CreateComponent/>}/>
-          {/* <Route path="settings" element={}/> */}
+          <Route path="account-settings" element={<SettingsComponent/>}/>
           <Route path="*" element={<Navigate to="main"/>}/>
         </Route>
         <Route path="/login" element={isAuth ? <Navigate to="/task-mananger"/> : <LoginPage/>}/>

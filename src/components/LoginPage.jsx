@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLogInUserMutation } from "../redux/userApi";
+import { useLogInUserMutation } from "../redux/authApi";
 import { login } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 

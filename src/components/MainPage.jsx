@@ -10,7 +10,7 @@ export const MainPage = () => {
                         <ul className="menu__list">
                             <li><NavLink to="/task-mananger" className="menu__link">Main</NavLink></li>
                             <li><NavLink to="/task-mananger/create" className="menu__link">Create</NavLink></li>
-                            <li><NavLink to="/task-mananger/settings" className="menu__link">Settings</NavLink></li>
+                            <li><NavLink to="/task-mananger/account-settings" className="menu__link">Settings</NavLink></li>
                         </ul>
                     </nav>
                 </div>
