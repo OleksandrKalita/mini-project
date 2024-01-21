@@ -31,7 +31,8 @@ router.post("/registration", async (req, res) => {
             email,
             dateOfBirthday: dateOfBirthday || null,
             password: hashedPassword,
-            avatar: null,
+            avatarId: null,
+            avatarUrl: null,
         });
 
         await user.save();
@@ -92,12 +93,13 @@ router.post("/auth", auth, async (req, res) => {
                 lastName: user.lastName,
                 email: user.email,
                 dateOfBirthday: user.dateOfBirthday,
-                avatar: user.avatar,
+                avatarUrl: user.avatarUrl,
             }
         });
     } catch (e) {
         return res.status(500).json({message: "Server error: " + e});
     }
 })
+
 
 module.exports = router;

@@ -15,7 +15,10 @@ router.post("/upload-image", upload.single("image"), auth, async (req, res) => {
             })
         }
 
-        req.body.newAvatar = result.url;
+        req.body.newAvatar = {
+            id: result.public_id,
+            url: result.url,
+        };
 
         // res.json({
         //     success: true,
@@ -26,9 +29,10 @@ router.post("/upload-image", upload.single("image"), auth, async (req, res) => {
 
     try {
         const userId = req.body.user.id;
-        const newAvatar = req.body.newAvatar;
+        const avatarId = req.body.newAvatar.id;
+        const avatarUrl = req.body.newAvatar.url;
 
-        const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatar: newAvatar}}, {
+        const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatarId, avatarUrl,}}, {
             new: true,
         });
 
@@ -45,7 +49,12 @@ router.post("/delete-avatar", auth, async (req, res) => {
     try {
         const userId = req.body.user.id;
 
-        const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatar: ""}}, {
+        const u = await User.findOne({_id: userId});
+        const avatarId = u.avatarId;
+
+        await cloudinary.uploader.destroy(avatarId);
+
+        const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatarId: null, avatarUrl: null}}, {
             new: true,
         });
 

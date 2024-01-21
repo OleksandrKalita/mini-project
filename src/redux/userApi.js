@@ -12,14 +12,6 @@ const userApi = createApi({
                 body: data,
             })
         }),
-        updateData: builder.mutation({
-            query: (data) => ({
-                url: "update-data",
-                method: "POST",
-                headers: {Authorization: "Berear " + localStorage.getItem("token")},
-                body: data,
-            })
-        }),
     })
 })
 

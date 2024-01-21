@@ -4,7 +4,7 @@ import { login } from "../../redux/userSlice";
 
 export const SettingsComponent = () => {
     const user = useSelector(state => state.user.user);
-    const avatarUrl = useSelector(state => state.user.user.avatar);
+    const avatarUrl = useSelector(state => state.user.user.avatarUrl);
     const dispatch = useDispatch();
 
     const [uploadImage, {data, isSuccess}] = useUploadImageMutation();
@@ -26,7 +26,6 @@ export const SettingsComponent = () => {
         })
         .then(data => data.json())
         .then(data => {
-            console.log(data);
             dispatch(login(data.user));
         })
     }
@@ -52,7 +51,9 @@ export const SettingsComponent = () => {
                     accept="image/*" 
                     type="file" 
                     onChange={e => uploadImageFunc(e.target.files[0])}/>
-                    <button onClick={e => clickDeleteHandler()}>delete avatar</button>
+                    {
+                        avatarUrl && <button onClick={e => clickDeleteHandler()}>delete avatar</button>
+                    }
                 </div>
             </div>
         </main>
