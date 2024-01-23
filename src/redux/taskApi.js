@@ -16,7 +16,7 @@ const taskApi = createApi({
         getTasks: builder.mutation({
             query: () => ({
                 url: "get",
-                method: "POST",
+                method: "GET",
                 headers: {Authorization: "Berear " + localStorage.getItem("token")}
             })
         }),

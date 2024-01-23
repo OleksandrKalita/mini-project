@@ -19,12 +19,6 @@ router.post("/upload-image", upload.single("image"), auth, async (req, res) => {
             id: result.public_id,
             url: result.url,
         };
-
-        // res.json({
-        //     success: true,
-        //     message: "Uploaded!",
-        //     data: result,
-        // })
     })
 
     try {
@@ -51,7 +45,6 @@ router.post("/delete-avatar", auth, async (req, res) => {
 
         const u = await User.findOne({_id: userId});
         const avatarId = u.avatarId;
-
         await cloudinary.uploader.destroy(avatarId);
 
         const user = await User.findOneAndUpdate({_id: userId}, {$set: {avatarId: null, avatarUrl: null}}, {
@@ -61,20 +54,6 @@ router.post("/delete-avatar", auth, async (req, res) => {
         res.json({
             user,
         });
-    } catch (e) {
-        return res.status(401).json({message: "Server error: " + e});
-    }
-})
-router.post("/update-data", auth, async(req, res) => {
-    try {
-        const userId = req.body.user.id;
-        const avatar = req.body.avatar;
-
-        await User.updateOne({_id: userId}, {$set: {avatar,}});
-
-        req.json({
-            message: "Image was update!"
-        })
     } catch (e) {
         return res.status(401).json({message: "Server error: " + e});
     }

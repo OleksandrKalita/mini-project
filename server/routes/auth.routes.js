@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const auth = require("../middleware/auth.middleware");
+const { query, validationResult, body } = require("express-validator");
 
 const generateAccessToken = (id) => {
     const payload = {
@@ -13,8 +14,25 @@ const generateAccessToken = (id) => {
     return jwt.sign(payload, config.get("secretKey"), {expiresIn: "1h"});
 }
 
-router.post("/registration", async (req, res) => {
+router.post(
+    "/registration", 
+    body("firstName").notEmpty(),
+    body("lastName").notEmpty(),
+    body("email").isEmail().withMessage('Not a valid e-mail address'),
+    body("email").custom(async (value) => {
+        const user = await User.findOne({email: value});
+        if (user) {
+            throw new Error("E-mail already in use");
+        }
+    }),
+    body("password").isLength({min: 7, max: 13}),
+    async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors);
+        }
+
         const {firstName, lastName, email, dateOfBirthday, password} = req.body;
 
         const isUser = await User.findOne({email});
@@ -43,8 +61,21 @@ router.post("/registration", async (req, res) => {
     }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", 
+    body("email").isEmail().withMessage('Not a valid e-mail address'),
+    body("email").custom(async (value) => {
+        const user = await User.findOne({email: value});
+        if (!user) {
+            throw new Error("Not find user with email!");
+        }
+    }),
+    body("password").isLength({min: 7, max: 13}),
+    async (req, res) => {
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors);
+        }
         const {email, password} = req.body;
 
         const user = await User.findOne({email});
@@ -76,7 +107,8 @@ router.post("/login", async (req, res) => {
     }
 });
 
-router.post("/auth", auth, async (req, res) => {
+router.post("/auth",
+    auth, async (req, res) => {
     try {
         const id = req.body.user.id;
 

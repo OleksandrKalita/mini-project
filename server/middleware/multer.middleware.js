@@ -6,6 +6,20 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({storage,});
+const fileFilter = function (req, file, cb) {
+    // const allowedTypes = /jpeg|jpg|png/;
+
+    if (file.mimetype === "image/jpeg" ||
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/png")  {
+        cb(null, true);
+    } else {
+        cb(new Error("Error, You can upload only images!"))
+    }
+}
+const upload = multer({
+    storage,
+    fileFilter,
+});
 
 module.exports = upload;
