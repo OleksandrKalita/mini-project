@@ -3,13 +3,19 @@ const app = express();
 const config = require("config");
 const PORT = config.get("serverPort");
 const mongoose = require("mongoose");
-const cors = require("./middleware/cors.middleware");
+// const cors = require("./middleware/cors.middleware");
 const authRouter = require("./routes/auth.routes");
 const taskRouter = require("./routes/task.routes");
 const userRouter = require("./routes/user.routes");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
-app.use(cors);
 app.use(express.json());
+app.use(cookieParser("eIOf39Kjc"));
+app.use(cors({
+    origin: 'http://localhost:3200', // Домен вашого реакт-додатку
+    credentials: true, // Встановлюємо прапорець для дозволу передачі кук між доменами
+  }));
 app.use("/api/auth", authRouter);
 app.use("/api/task", taskRouter)
 app.use("/api/user", userRouter);

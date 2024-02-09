@@ -16,17 +16,26 @@ const authApi = createApi({
                 url: "login",
                 method: "POST",
                 body: data,
+                credentials: "include"
             })
         }),
         authenticateUser: builder.mutation({
             query: (data) => ({
                 url: "auth",
                 method: "POST",
-                headers: { Authorization: `Berear ${data.token}`}
+                headers: { Authorization: `Berear ${data.token}`},
+                credentials: "include"
+            })
+        }),
+        refreshToken: builder.mutation({
+            query: () => ({
+                url: "refresh",
+                method: "POST",
+                credentials: "include"
             })
         }),
     })
 })
 
 export default authApi;
-export const { useSignInUserMutation, useLogInUserMutation, useAuthenticateUserMutation } = authApi;
+export const { useSignInUserMutation, useLogInUserMutation, useAuthenticateUserMutation, useRefreshTokenMutation } = authApi;

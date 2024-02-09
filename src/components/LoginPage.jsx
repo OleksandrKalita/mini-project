@@ -12,12 +12,13 @@ export const LoginPage = () => {
 
     const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const [logInUser, {data, isSuccess}] = useLogInUserMutation();
+    const [logInUser, {data, isSuccess, isError, error}] = useLogInUserMutation();
 
     if (isSuccess) {
         dispatch(login(data.user));
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("token", data.accessToken);
     }
+    
 
     const submitHandler = (event) => {
         event.preventDefault();

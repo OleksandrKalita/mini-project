@@ -5,10 +5,11 @@ import { MainComponent } from "./components/MainComponents/MainComponent";
 import { MainPage } from "./components/MainPage";
 import { useDispatch, useSelector } from "react-redux";
 import { useLayoutEffect } from "react";
-import { useAuthenticateUserMutation } from "./redux/authApi";
+import { useAuthenticateUserMutation, useRefreshTokenMutation } from "./redux/authApi";
 import { login } from "./redux/userSlice";
 import { CreateComponent } from "./components/MainComponents/CreateComponent";
 import { SettingsComponent } from "./components/MainComponents/SettingsComponent.jsx";
+
 
 
 
@@ -18,6 +19,7 @@ function App() {
   const navigate = useNavigate();
   
   const [authenticateUser, {data, isError, isSuccess, isLoading, error}] = useAuthenticateUserMutation();
+  const [refreshToken, {data: refreshData, isSuccess: refreshSuccess}] = useRefreshTokenMutation();
 
   useLayoutEffect(() => {
     authenticateUser({token: localStorage.getItem("token") || ""});
@@ -25,12 +27,33 @@ function App() {
 
   if (isSuccess) {
     dispatch(login(data.user));
-    localStorage.setItem("token", data.token);
+  }
+  var firstQuery = true;
+  if (isError) {
+    if (error.status === 401 && firstQuery) {
+      firstQuery = false;
+      fetch("http://localhost:3201/api/auth/refresh", {
+        method: "POST",
+        credentials: "include"
+      })
+      .then(data => data.json())
+      .then(data => {
+        localStorage.setItem("token", data.accessToken);
+        console.log(data);
+        authenticateUser({token: localStorage.getItem("token") || ""});
+      })
+
+      // .catch(data)
+    }
   }
 
-  const location = useLocation();
-  const currentPath = location.pathname;
-  sessionStorage.setItem("pathname", currentPath);
+  // if (refreshSuccess) {
+  //   localStorage.setItem("token", refreshData.token);
+  //   authenticateUser({token: localStorage.getItem("token") || ""});
+  // }
+  // const location = useLocation();
+  // const currentPath = location.pathname;
+  // sessionStorage.setItem("pathname", currentPath);
 
   return (
     isLoading ? 

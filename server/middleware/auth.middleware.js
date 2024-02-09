@@ -1,20 +1,25 @@
-const jwt = require("jsonwebtoken");
-const config = require("config");
+const tokenService = require("../service/token-service");
 
 const authMiddleware = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
 
         if (!token) {
-            return res.status(401).json({message: "User is't authorized!"});
+            return res.status(401).json({message: "Unauthorized error!"});
+            // return res.redirect("http://localhost:3201/api/auth/refresh");
         }
 
-        const decodedData = jwt.verify(token, config.get("secretKey"));
+        const userData = tokenService.validateAccessToken(token);
+        if (!userData) {
+            return res.status(401).json({message: "Unauthorized error!"})
+            // return res.redirect("http://localhost:3201/api/auth/refresh");
+        }
 
-        req.body.user = decodedData;
+        req.body.user = userData;
         next();
     } catch (e) {
-        return res.status(403).json({message: "Authorized error! "+ e})
+        return res.status(401).json({message: "Unauthorized error!"+ e})
+        // return res.redirect("http://localhost:3201/api/auth/refresh");
     }
 }
 

@@ -48,7 +48,7 @@ export const SettingsComponent = () => {
                     alt="Avatar image" 
                     className="avatar" />
                     <input 
-                    accept="" 
+                    accept="image/jpeg, image/jpg, image/png" 
                     type="file" 
                     onChange={e => uploadImageFunc(e.target.files[0])}/>
                     {
